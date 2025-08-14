@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
 class Solution {
@@ -11,7 +10,6 @@ class Solution {
 	static int max;
 	static int[] dr = {-1, 1, 0, 0};
 	static int[] dc = {0, 0, -1, 1};
-	static ArrayDeque<Point> q = new ArrayDeque<>();
 	static int start;
 	
 	public static void main (String[] args) throws IOException{
@@ -46,7 +44,7 @@ class Solution {
 					}
 				}
 			}
-			sb.append("#").append(tc).append(" ").append(start==Integer.MAX_VALUE ? 1:start).append(" ").append(max).append("\n");
+			sb.append("#").append(tc).append(" ").append(start).append(" ").append(max).append("\n");
 		}
 		System.out.println(sb);
 	}
@@ -64,16 +62,4 @@ class Solution {
 		}
 		return visited[i][j];
 	}
-	
-	static class Point {
-		int r;
-		int c;
-		int dist;
-		Point(int r, int c, int dist){
-			this.r = r;
-			this.c = c;
-			this.dist = dist;
-		}
-	}
 }
-
