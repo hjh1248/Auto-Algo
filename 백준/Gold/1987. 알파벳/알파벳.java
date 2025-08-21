@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.util.HashSet;
 
+//메모리:303540KB, 시간: 2100ms
+
 public class Main {
     static char[][] map;
     static int[] dr = {-1, 1, 0, 0};
@@ -21,32 +23,28 @@ public class Main {
         C = Integer.parseInt(st.nextToken());
 
         map = new char[R][];
-        boolean[][] visited = new boolean[R][C];
 
         for(int i=0; i<R; i++){
             map[i] = br.readLine().toCharArray();
         }
 
-        visited[0][0] = true;
         set.add(map[0][0]);
-        dfs(0, 0, set, visited, 1);
+        dfs(0, 0, set, 1);
 
         System.out.println(max);
     }
     
-    static void dfs(int r, int c, HashSet<Character> set, boolean[][] visited, int dist){
+    static void dfs(int r, int c, HashSet<Character> set, int dist){
         
         max = Math.max(max, dist);
 
         for(int i=0; i<4; i++){
             int nr = r + dr[i];
             int nc = c + dc[i];
-            if(0<=nr && nr<R && 0<=nc && nc<C && !visited[nr][nc] && !set.contains(map[nr][nc])){
-                visited[nr][nc] = true;
+            if(0<=nr && nr<R && 0<=nc && nc<C && !set.contains(map[nr][nc])){
                 char ch = map[nr][nc];
                 set.add(ch);
-                dfs(nr, nc, set, visited, dist+1);
-                visited[nr][nc] = false;
+                dfs(nr, nc, set, dist+1);
                 set.remove(ch);
             }
         }
