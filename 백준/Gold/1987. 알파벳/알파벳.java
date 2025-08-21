@@ -17,7 +17,6 @@ public class Main {
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        HashSet<Character> set = new HashSet<>();
 
         R = Integer.parseInt(st.nextToken());
         C = Integer.parseInt(st.nextToken());
@@ -27,25 +26,25 @@ public class Main {
         for(int i=0; i<R; i++){
             map[i] = br.readLine().toCharArray();
         }
-
-        set.add(map[0][0]);
-        dfs(0, 0, set, 1);
+        boolean[] aVisited = new boolean['Z'+1];
+        
+        aVisited[map[0][0]] = true;
+        dfs(0, 0, aVisited, 1);
 
         System.out.println(max);
     }
     
-    static void dfs(int r, int c, HashSet<Character> set, int dist){
+    static void dfs(int r, int c, boolean[] aVisited, int dist){
         
         max = Math.max(max, dist);
 
         for(int i=0; i<4; i++){
             int nr = r + dr[i];
             int nc = c + dc[i];
-            if(0<=nr && nr<R && 0<=nc && nc<C && !set.contains(map[nr][nc])){
-                char ch = map[nr][nc];
-                set.add(ch);
-                dfs(nr, nc, set, dist+1);
-                set.remove(ch);
+            if(0<=nr && nr<R && 0<=nc && nc<C && !aVisited[map[nr][nc]]){
+                aVisited[map[nr][nc]] = true;
+                dfs(nr, nc, aVisited, dist+1);
+                aVisited[map[nr][nc]] = false;
             }
         }
 
