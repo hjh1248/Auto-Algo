@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 // 메모리: 32,640kb, 실행시간: 156ms
@@ -17,25 +19,21 @@ public class Solution {
             st = new StringTokenizer(br.readLine());
             int N = Integer.parseInt(st.nextToken());
             int n = N/4;
-            Integer[] nums = new Integer[N];
+            HashSet<Integer> set = new HashSet<>();
             int K = Integer.parseInt(st.nextToken());
             String str = br.readLine();
             for(int i=0; i<n; i++){
                 for(int j=0; j<4; j++){
                     if(j==3){
-                        nums[i*4+3] = Integer.parseInt(str.substring(3*n+i) + str.substring(0, i), 16);
+                        set.add(Integer.parseInt(str.substring(3*n+i) + str.substring(0, i), 16));
                         continue;
                     }
-                    nums[i*4+j] = Integer.parseInt(str.substring(j*n+i, j*n+n+i), 16);
+                    set.add(Integer.parseInt(str.substring(j*n+i, j*n+n+i), 16));
                 }
             }
-            Arrays.sort(nums, (a, b) -> b - a);
-            int tmp = 0;
-            for(int i=0; i<K; i++){
-                if(tmp==nums[i]) K++;
-                tmp = nums[i];
-            }
-            int answer = tmp;         
+            ArrayList<Integer> nums = new ArrayList<>(set);
+            Collections.sort(nums, Collections.reverseOrder());
+            int answer = nums.get(K-1);
             sb.append("#").append(tc).append(" ").append(answer).append("\n");
         }
         System.out.println(sb);
