@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+// 메모리: 25,216kb, 실행시간: 76 ms
+
 public class Solution {
     static int[][] magnets = new int[5][8];
     static int[] rotates = new int[5];
@@ -33,7 +35,7 @@ public class Solution {
                 rotate(check(n, d));
             }
             for(int i=1; i<5; i++){
-                if(magnets[i][Math.floorMod(-rotates[i],8)]==1) answer += Math.pow(2, i-1);
+                if(mod(i, 0)==1) answer += Math.pow(2, i-1);
             }
             sb.append("#").append(tc).append(" ").append(answer).append("\n");
         }
@@ -55,7 +57,7 @@ public class Solution {
         int nd = d;
         int nn = n;
         while(1<nn){
-            if(magnets[nn][Math.floorMod(6-rotates[nn],8)]!=magnets[nn-1][Math.floorMod(2-rotates[nn-1],8)]) dirs[nn-1] = -nd;
+            if(mod(nn, 6)!=mod(nn-1, 2)) dirs[nn-1] = -nd;
             else break;
             nd = -nd;
             nn--;
@@ -63,11 +65,14 @@ public class Solution {
         nd = d;
         nn = n;
         while(nn<4){
-            if(magnets[nn][Math.floorMod(2-rotates[nn],8)]!=magnets[nn+1][Math.floorMod(6-rotates[nn+1],8)]) dirs[nn+1] = -nd;
+            if(mod(nn, 2)!=mod(nn+1, 6)) dirs[nn+1] = -nd;
             else break;
             nd = -nd;
             nn++;
         }
         return dirs;
+    }
+    static int mod(int n, int x){
+        return magnets[n][Math.floorMod(x-rotates[n], 8)];
     }
 }
