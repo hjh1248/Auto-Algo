@@ -8,21 +8,23 @@ import java.util.StringTokenizer;
 
 class Main {
     static PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-    static int[] dists;
-    static ArrayList<int[]>[] edges;
+    static int N;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         int X = Integer.parseInt(st.nextToken());
         int answer = 0;
 
-        edges = new ArrayList[N+1];
-        dists = new int[N+1];
-        for(int i=1; i<=N; i++) edges[i] = new ArrayList<>();
+        ArrayList<int[]>[] edges = new ArrayList[N+1];
+        ArrayList<int[]>[] reverseEdges = new ArrayList[N+1];
+        for(int i=1; i<=N; i++){
+            edges[i] = new ArrayList<>();
+            reverseEdges[i] = new ArrayList<>();
+        }
 
         for(int i=0; i<M; i++){
             st = new StringTokenizer(br.readLine());
@@ -31,17 +33,21 @@ class Main {
             int w = Integer.parseInt(st.nextToken());
             // u에서 출발해서 v로 가는 가중치가 w인 간선 추가
             edges[u].add(new int[] {v, w});
+            reverseEdges[v].add(new int[] {u, w});
         }
+        int[] dists = dijkstra(X, edges);
+        int[] reverseDists = dijkstra(X, reverseEdges);
+        
         for(int i=1; i<=N; i++){
-            int dist = dijkstra(i, X) + dijkstra(X, i);
-            answer = Math.max(answer, dist);
+            answer = Math.max(answer, dists[i] + reverseDists[i]);
         }
         System.out.println(answer);
     }
-    static int dijkstra(int start, int end){
+    static int[] dijkstra(int X, ArrayList<int[]>[] edges){
+        int[] dists = new int[N+1];
         Arrays.fill(dists, Integer.MAX_VALUE);
-        dists[start] = 0;
-        pq.offer(new int[] {start, 0});
+        dists[X] = 0;
+        pq.offer(new int[] {X, 0});
         while(!pq.isEmpty()){
             int[] cur = pq.poll();
             int u = cur[0];
@@ -56,6 +62,6 @@ class Main {
                 }
             }
         }
-        return dists[end];
+        return dists;
     }
 }
