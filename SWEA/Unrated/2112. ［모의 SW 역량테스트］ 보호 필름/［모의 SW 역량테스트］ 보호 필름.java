@@ -62,7 +62,6 @@ public class Solution {
         return true;
     }
     static boolean comb(int cnt, int start, int max){
-        boolean bool = false;
         if(cnt==max){
             if(check()) return true;
         }
@@ -70,13 +69,13 @@ public class Solution {
             int[] original = map[i].clone();
 
             for(int j=0; j<M; j++) map[i][j] = 0;
-            if(comb(cnt+1, i+1, max)) bool = true;
+            if(comb(cnt+1, i+1, max)) return true;
 
             for(int j=0; j<M; j++) map[i][j] = 1;
-            if(comb(cnt+1, i+1, max)) bool = true;
+            if(comb(cnt+1, i+1, max)) return true;
 
             map[i] = original;
         }
-        return bool;
+        return false;
     }
 }
