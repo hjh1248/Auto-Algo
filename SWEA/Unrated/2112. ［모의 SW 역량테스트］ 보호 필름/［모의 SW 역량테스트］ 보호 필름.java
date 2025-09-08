@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 메모리: 116,204 kb, 실행시간: 2,147 ms
+
 public class Solution {
     static int N, M, K;
     static int[][] map;
@@ -30,12 +32,8 @@ public class Solution {
                 sb.append(0).append("\n");
                 continue;
             }
-            if(check()){
-                sb.append(0).append("\n");
-                continue;
-            }
-            for(int i=1; i<=K; i++){
-                if(comb(0, 0, i) || i==K){
+            for(int i=0; i<=K; i++){
+                if(comb(0, 0, i)){
                 sb.append(i).append("\n");
                 break;
                 }
@@ -63,7 +61,7 @@ public class Solution {
     }
     static boolean comb(int cnt, int start, int max){
         if(cnt==max){
-            if(check()) return true;
+            return check();
         }
         for(int i=start; i<N; i++){
             int[] original = map[i].clone();
