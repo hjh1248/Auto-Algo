@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
+// 메모리: 101,920kb, 시간: 346ms
+
 public class Solution {
     static int[] dr = {-1, 1, 0, 0};
     static int[] dc = {0, 0, -1, 1};
@@ -24,7 +26,7 @@ public class Solution {
             int K = Integer.parseInt(st.nextToken());
             int answer = 0;
 
-            visited = new boolean[650][650];
+            visited = new boolean[350][350];
             life = new int[K+21];
             PriorityQueue<int[]> nextPq = new PriorityQueue<>((a, b) -> b[3]-a[3]);
             for(int i=0; i<N; i++){
@@ -32,8 +34,8 @@ public class Solution {
                 for(int j=0; j<M; j++){
                     int l = Integer.parseInt(st.nextToken());
                     if(l==0) continue;
-                    int r = i+300;
-                    int c = j+300;
+                    int r = i+150;
+                    int c = j+150;
                     visited[r][c] = true;
                     nextPq.offer(new int[] {r, c, l, l});
                     life[2*l]++;
