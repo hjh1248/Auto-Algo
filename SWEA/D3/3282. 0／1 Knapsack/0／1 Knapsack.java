@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 메모리: 30,884kb, 시간: 96ms
+
 public class Solution {
     public static void main(String[] args) throws  IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,8 +23,7 @@ public class Solution {
                 int c = Integer.parseInt(st.nextToken());
                 for(int j=0; j<=K; j++){
                     if(v>j) dp[i][j] = dp[i-1][j];
-                    else if(dp[i-1][j-v] + c <= dp[i-1][j]) dp[i][j] = dp[i-1][j];
-                    else dp[i][j] = dp[i-1][j-v] + c;
+                    else dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-v] + c);
                 }
             }
             sb.append("#").append(tc).append(" ").append(dp[N][K]).append("\n");
