@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,20 +24,19 @@ public class Main {
             }
         }
         sudoku(0, 0);
+        StringBuilder sb = new StringBuilder();
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
-                System.out.print(map[i][j]);
+                sb.append(map[i][j]);
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.println(sb);
     }
     static boolean sudoku(int i, int j){
-        int nr = i;
-        int nc = j+1;
-        if(nc==9){
-            nr++;
-            nc-=9;
-        }
+        int nr = i + (j+1)/9;
+        int nc = (j+1)%9;
+
         if(map[i][j]!=0) return nr==9? true:sudoku(nr, nc);
 
         for(int k=0; k<9; k++){
