@@ -12,18 +12,21 @@ public class Main {
         int T = Integer.parseInt(br.readLine());
         for(int tc=1; tc<=T; tc++){
             int N = Integer.parseInt(br.readLine());
-            int[][] dp = new int[3][N+1];
+            int[] cur = new int[3];
+            
             StringTokenizer st1 = new StringTokenizer(br.readLine());
             StringTokenizer st2 = new StringTokenizer(br.readLine());
 
+
             for(int i=1; i<=N; i++){
-                dp[0][i] = Math.max(dp[1][i-1], dp[2][i-1]) + Integer.parseInt(st1.nextToken());
-                dp[1][i] = Math.max(dp[0][i-1], dp[2][i-1]) + Integer.parseInt(st2.nextToken());
-                dp[2][i] = Math.max(dp[0][i-1], dp[1][i-1]);
+                int[] next = new int[3];
+                next[0] = Math.max(cur[1], cur[2]) + Integer.parseInt(st1.nextToken());
+                next[1] = Math.max(cur[0], cur[2]) + Integer.parseInt(st2.nextToken());
+                next[2] = Math.max(cur[0], cur[1]);
+                cur = next;
             }
 
-            int max = Math.max(dp[0][N], dp[1][N]);
-            sb.append(Math.max(max, dp[2][N])).append("\n");
+            sb.append(Math.max(cur[0], cur[1])).append("\n");
         }
         System.out.println(sb);
     }
