@@ -24,20 +24,20 @@ public class Main {
             for(int j=0; j<M; j++){
                 int n = map[i][j];
                 switch (n) {
-                    case 'R' -> {
+                    case 'R':
                         red[0] = i;
                         red[1] = j;
-                    }
-                    case 'B' -> {
+                        break;
+                    case 'B':
                         blue[0] = i;
                         blue[1] = j;
-                    }
-                    case 'O' -> {
+                        break;
+                    case 'O':
                         hole[0] = i;
                         hole[1] = j;
-                    }
-                    default -> {
-                    }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -69,30 +69,30 @@ public class Main {
                 if(map[nr][nc] == 'O'){
                     min = Math.min(min, cnt);
                     return;
-                } 
+                }
                 red[0] = nr;
                 red[1] = nc;
             }
             if(red[0] == blue[0] && red[1] == blue[1]){
                 switch (i) {
-                    case 0 -> {
+                    case 0:
                         if(oriRed[0] < oriBlue[0]) blue[0]++;
                         else red[0]++;
-                    }
-                    case 1 -> {
+                        break;
+                    case 1:
                         if(oriRed[0] < oriBlue[0]) red[0]--;
                         else blue[0]--;
-                    }
-                    case 2 -> {
+                        break;
+                    case 2:
                         if(oriRed[1] < oriBlue[1]) blue[1]++;
                         else red[1]++;
-                    }
-                    case 3 -> {
+                        break;
+                    case 3:
                         if(oriRed[1] < oriBlue[1]) red[1]--;
                         else blue[1]--;
-                    }
-                    default -> {
-                    }
+                        break;
+                    default:
+                        break;
                 }
             }
             dfs(cnt);
