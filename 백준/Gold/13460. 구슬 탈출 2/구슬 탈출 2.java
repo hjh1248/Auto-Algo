@@ -11,6 +11,7 @@ public class Main {
     static char[][] map;
     static int[] dr = {-1, 1, 0, 0};
     static int[] dc = {0, 0, -1, 1};
+    static boolean[][][][] visited;
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,6 +19,7 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         map = new char[N][M];
+        visited = new boolean[N][N][M][M];
 
         for(int i=0; i<N; i++){
             map[i] = br.readLine().toCharArray();
@@ -48,6 +50,8 @@ public class Main {
     static void dfs(int cnt) {
         cnt++;
         if(cnt>=min) return;
+        if(visited[red[0]][blue[0]][red[1]][blue[1]]) return;
+        visited[red[0]][blue[0]][red[1]][blue[1]] = true;
         A: for(int i=0; i<4; i++){
             int[] oriRed = red.clone();
             int[] oriBlue = blue.clone();
@@ -70,6 +74,7 @@ public class Main {
                     min = Math.min(min, cnt);
                     red = oriRed;
                     blue = oriBlue;
+                    visited[red[0]][blue[0]][red[1]][blue[1]] = false;
                     return;
                 }
                 red[0] = nr;
@@ -100,6 +105,7 @@ public class Main {
             dfs(cnt);
             red = oriRed;
             blue = oriBlue;
+            visited[red[0]][blue[0]][red[1]][blue[1]] = false;
         }
     }
 }
