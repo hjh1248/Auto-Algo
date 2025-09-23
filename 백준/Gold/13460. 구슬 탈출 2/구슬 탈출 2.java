@@ -68,6 +68,8 @@ public class Main {
                 if(map[nr][nc] == '#') break;
                 if(map[nr][nc] == 'O'){
                     min = Math.min(min, cnt);
+                    red = oriRed;
+                    blue = oriBlue;
                     return;
                 }
                 red[0] = nr;
