@@ -17,7 +17,8 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int sum = 0;
             for(int j=0; j<N; j++){
-                map[i][j] = sum+=Integer.parseInt(st.nextToken());
+                sum += Integer.parseInt(st.nextToken());
+                map[i][j] = sum + (i==0 ? 0 : map[i-1][j]);
             }
         }
 
@@ -29,11 +30,10 @@ public class Main {
             int x2 = Integer.parseInt(st.nextToken()) - 1;
             int y2 = Integer.parseInt(st.nextToken()) - 1;
 
-            int sum = 0;
-
-            for(int x=x1; x<=x2; x++){
-                sum += y1==0 ?  map[x][y2] : map[x][y2] - map[x][y1-1];
-            }
+            int sum = map[x2][y2];
+            if(x1!=0) sum -= map[x1-1][y2];
+            if(y1!=0) sum -= map[x2][y1-1];
+            if(x1!=0 && y1!=0) sum += map[x1-1][y1-1];
 
             sb.append(sum).append("\n");
         }
