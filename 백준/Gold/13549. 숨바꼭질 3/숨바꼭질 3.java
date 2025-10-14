@@ -29,7 +29,7 @@ public class Main {
 
             int next = cur*2;
             
-            if(next<MAX && dist[cur] < dist[next]){
+            if(N<K && next<MAX && dist[cur] < dist[next]){
                 q.offerFirst(next);
                 dist[next] = dist[cur];
             }
@@ -43,7 +43,7 @@ public class Main {
             }
 
             next = cur + 1;
-            if(next<MAX && nDist < dist[next]){
+            if(next<=K && nDist < dist[next]){
                 q.offer(next);
                 dist[next] = nDist;
             }
