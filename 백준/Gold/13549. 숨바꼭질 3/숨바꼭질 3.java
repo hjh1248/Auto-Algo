@@ -11,49 +11,41 @@ public class Main {
         
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
+        final int MAX = 100001;
 
-        boolean[] visited = new boolean[100001];
+        int[] dist = new int[MAX];
+        for(int i=0; i<MAX; i++) dist[i] = MAX;
         ArrayDeque<Integer> q = new ArrayDeque<>();
         q.offer(N);
-        visited[N] = true;
+        dist[N] = 0;
 
-        int cnt = 0;
         while(!q.isEmpty()){
-            int size = q.size();
-            for(int i=0; i<size; i++){
-                int node = q.poll();
-                if(node==K){
-                    System.out.println(cnt);
-                    return;
-                }
-                q.offer(node);
-                while(node<K){
-                    node*=2;
-                    if(node > 100000 || visited[node]) break;
-                    if(node==K){
-                        System.out.println(cnt);
-                        return;
-                    }
-                    visited[node] = true;
-                    q.offer(node);
-                }
+            int cur = q.poll();
+
+            if(cur == K){
+                System.out.println(dist[cur]);
+                return;
             }
-            size = q.size();
-            cnt++;
-            for(int i=0; i<size; i++){
-                int node = q.poll();
-                if(node-1==K || node+1 ==K){
-                    System.out.println(cnt);
-                    return;
-                }
-                if(node>0 && !visited[node-1]){
-                    visited[node-1] = true;
-                    q.offer(node-1);
-                }
-                if(node<K && !visited[node+1]){
-                    visited[node+1] = true;
-                    q.offer(node+1);
-                }
+
+            int next = cur*2;
+            
+            if(next<MAX && dist[cur] < dist[next]){
+                q.offerFirst(next);
+                dist[next] = dist[cur];
+            }
+            
+            int nDist = dist[cur] + 1;
+
+            next = cur - 1;
+            if(0<=next && nDist < dist[next]){
+                q.offer(next);
+                dist[next] = nDist;
+            }
+
+            next = cur + 1;
+            if(next<MAX && nDist < dist[next]){
+                q.offer(next);
+                dist[next] = nDist;
             }
         }
     }
