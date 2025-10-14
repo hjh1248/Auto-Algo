@@ -29,8 +29,7 @@ public class Main {
                 q.offer(node);
                 while(node<K){
                     node*=2;
-                    if(node > 100000) break;
-                    if(visited[node]) break;
+                    if(node > 100000 || visited[node]) break;
                     if(node==K){
                         System.out.println(cnt);
                         return;
@@ -59,4 +58,3 @@ public class Main {
         }
     }
 }
-
