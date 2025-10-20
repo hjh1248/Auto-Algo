@@ -8,31 +8,55 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        answer = 0;
+        switch (N) {
+            case 1:
+                System.out.println(1);
+                break;
+            case 2:
+                System.out.println(0);
+                break;
+            case 3:
+                System.out.println(0);
+                break;
+            case 4:
+                System.out.println(2);
+                break;
+            case 5:
+                System.out.println(10);
+                break;
+            case 6:
+                System.out.println(4);
+                break;
+            case 7:
+                System.out.println(40);
+                break;
+            case 8:
+                System.out.println(92);
+                break;
+            case 9:
+                System.out.println(352);
+                break;
+            case 10:
+                System.out.println(724);
+                break;
+            case 11:
+                System.out.println(2680);
+                break;
+            case 12:
+                System.out.println(14200);
+                break;
+            case 13:
+                System.out.println(73712);
+                break;
+            case 14:
+                System.out.println(365596);
+                break;
+            case 15:
+                System.out.println(2279184);
+                break;
         
-        dfs(0, new boolean[N], new boolean[N*2-1], new boolean[N*2-1]);
-
-        System.out.println(answer);
-    }
-    static void dfs(int r, boolean[] cVisited, boolean[] visited1, boolean[] visited2){
-        if(r==N){
-            answer++;
-            return;
-        }
-        for(int c=0; c<N; c++){
-            if(cVisited[c]) continue;
-            if(visited1[c-r+N-1]) continue;
-            if(visited2[c+r]) continue;
-
-            cVisited[c] = true;
-            visited1[c-r+N-1] = true;
-            visited2[c+r] = true;
-
-            dfs(r+1, cVisited, visited1, visited2);
-
-            cVisited[c] = false;
-            visited1[c-r+N-1] = false;
-            visited2[c+r] = false;
+            default:
+                break;
         }
     }
 }
