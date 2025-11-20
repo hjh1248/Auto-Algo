@@ -6,12 +6,14 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int[] parent, rank;
+    static int unionCnt;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         double answer = 0;
+        unionCnt = 0;
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
@@ -54,7 +56,10 @@ public class Main {
             int v = (int) edge[1];
             double cost = edge[2];
 
-            if(union(u, v)) answer += cost;
+            if(union(u, v)) {
+                answer += cost;
+                if(unionCnt==N-1) break;
+            }
         }
 
         System.out.printf("%.2f", answer);
@@ -77,7 +82,7 @@ public class Main {
             parent[pb] = pa;
             rank[pa]++;
         }
-
+        unionCnt++;
         return true;
     }
 }
