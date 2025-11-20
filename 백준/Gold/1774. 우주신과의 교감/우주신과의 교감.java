@@ -1,88 +1,91 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[] parent, rank;
-    static int unionCnt;
+       static class Edge implements Comparable<Edge> {
+        int u, v;
+        double w;
+        Edge(int u, int v, double w) { this.u = u; this.v = v; this.w = w; }
+        public int compareTo(Edge o) {
+            return Double.compare(this.w, o.w);
+        }
+    }
 
-    public static void main(String[] args) throws IOException {
+    static class UnionFind {
+        int[] p;
+        UnionFind(int n) {
+            p = new int[n+1];
+            for (int i = 1; i <= n; i++) p[i] = i;
+        }
+        int find(int a) {
+            if (p[a] == a) return a;
+            return p[a] = find(p[a]);
+        }
+        boolean union(int a, int b) {
+            a = find(a); b = find(b);
+            if (a == b) return false;
+            p[b] = a;
+            return true;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        double answer = 0;
-        unionCnt = 0;
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        parent = new int[N+1];
-        rank = new int[N+1];
-        for(int i=1; i<=N; i++) parent[i] = i;
-
-        int[][] node = new int[N][2];
-        for(int i=0; i<N; i++){
+        double[] x = new double[N+1];
+        double[] y = new double[N+1];
+        for (int i = 1; i <= N; i++) {
             st = new StringTokenizer(br.readLine());
-            node[i][0] = Integer.parseInt(st.nextToken());
-            node[i][1] = Integer.parseInt(st.nextToken());
+            x[i] = Double.parseDouble(st.nextToken());
+            y[i] = Double.parseDouble(st.nextToken());
         }
-        int maxIdx = N*(N-1)/2;
-        // u, v, cost
-        double[][] edges = new double[maxIdx][3];
-        int idx = 0;
-        for(int i=0; i<N-1; i++){
-            for(int j=i+1; j<N; j++){
-                double[] edge = new double[3];
-                edge[0] = i;
-                edge[1] = j;
-                edge[2] = Math.sqrt(Math.pow(node[j][0] - node[i][0], 2) + Math.pow(node[j][1] - node[i][1], 2));
-                edges[idx] = edge;
-                idx++;
+
+        UnionFind uf = new UnionFind(N);
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            uf.union(a, b);
+        }
+
+        List<Edge> edges = new ArrayList<>((N*(N-1))/2);
+        for (int i = 1; i <= N; i++) {
+            for (int j = i+1; j <= N; j++) {
+                double dx = x[i] - x[j];
+                double dy = y[i] - y[j];
+                double dist = Math.hypot(dx, dy);
+                edges.add(new Edge(i, j, dist));
             }
         }
 
-        for(int i=0; i<M; i++){
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken())-1;
-            int b = Integer.parseInt(st.nextToken())-1;
-            union(a, b);
+        Collections.sort(edges);
+
+        double total = 0.0;
+        // We can keep track of how many unions we've done; when components==1 we can stop.
+        // Compute initial components count (optional)
+        int components = 0;
+        boolean[] seenRoot = new boolean[N+1];
+        for (int i = 1; i <= N; i++) {
+            int r = uf.find(i);
+            if (!seenRoot[r]) { seenRoot[r] = true; components++; }
         }
 
-        Arrays.sort(edges, (a, b) -> Double.compare(a[2], b[2]));
-
-        for(double[] edge: edges){
-            int u = (int) edge[0];
-            int v = (int) edge[1];
-            double cost = edge[2];
-
-            if(union(u, v)) {
-                answer += cost;
-                if(unionCnt==N-1) break;
+        for (Edge e : edges) {
+            if (components == 1) break;
+            if (uf.union(e.u, e.v)) {
+                total += e.w;
+                components--;
             }
         }
 
-        System.out.printf("%.2f", answer);
-    }
-
-    static int find(int x){
-        if(parent[x] == x) return x;
-        return parent[x] = find(parent[x]);
-    }
-
-    static boolean union(int a, int b){
-        int pa = find(a);
-        int pb = find(b);
-
-        if(pa == pb) return false;
-
-        if(rank[pa] > rank[pb]) parent[pb] = pa;
-        else if(rank[pa] < rank[pb]) parent[pa] = pb;
-        else{
-            parent[pb] = pa;
-            rank[pa]++;
-        }
-        unionCnt++;
-        return true;
+        System.out.printf("%.2f\n", total);
     }
 }
